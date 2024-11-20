@@ -1,16 +1,23 @@
-// Add click event to all dropdowns
-document.querySelectorAll('.dropdown-toggle').forEach(button => {
+// Add functionality for dropdown toggle
+document.querySelectorAll('.dropdown-toggle').forEach((button) => {
     button.addEventListener('click', (event) => {
-        const menu = event.target.nextElementSibling;
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        const dropdown = event.target.closest('.dropdown');
+        dropdown.classList.toggle('open');
+
+        // Close other open dropdowns
+        document.querySelectorAll('.dropdown').forEach((otherDropdown) => {
+            if (otherDropdown !== dropdown) {
+                otherDropdown.classList.remove('open');
+            }
+        });
     });
 });
 
-// Hide dropdowns when clicking outside
+// Close dropdowns when clicking outside
 window.addEventListener('click', (event) => {
-    if (!event.target.matches('.dropdown-toggle')) {
-        document.querySelectorAll('.dropdown-menu').forEach(menu => {
-            menu.style.display = 'none';
+    if (!event.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown').forEach((dropdown) => {
+            dropdown.classList.remove('open');
         });
     }
 });
